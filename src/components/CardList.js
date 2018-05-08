@@ -1,8 +1,10 @@
 import React from 'react';
 import Board from './Board';
 import Card from './Card';
+import TransitionGroup from 'react-transition-group/TransitionGroup';
+import FadeAndSlideTransition from './FadeAndSlideTransition';
 
-export default class Application extends React.Component {
+export default class CardList extends React.Component {
   constructor (props) {
     super(props)
 
@@ -22,19 +24,21 @@ export default class Application extends React.Component {
       <main className="container">
         <button onClick={this.addCard}>Add a card</button>
         <button onClick={this.removeLastCard}>Remove a card</button>
-        <Board>
+        <TransitionGroup component={Board}>
           {
             cards.map(card => {
               return (
-                <li className="board__item" key={card.id}>
+                <FadeAndSlideTransition duration={450} key={card.id}>
+                <li className="board__item">
                   <Card onRemove={() => {
                     this.removeCard(card.id)
                   }}>{card.content}</Card>
                 </li>
+                </FadeAndSlideTransition>
               )
             })
           }
-        </Board>
+        </TransitionGroup>
       </main>
     )
   }
